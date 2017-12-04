@@ -13,11 +13,12 @@ extension String {
         let regex = try NSRegularExpression(pattern: pattern)
         return regex.matches(in: self, options: .reportCompletion, range: NSRange(0..<utf16.count))
     }
-    func nsRange(from range: Range<String.Index>) -> NSRange {
-        let from = range.lowerBound.samePosition(in: utf16)
-        let to = range.upperBound.samePosition(in: utf16)
-        return NSRange(location: utf16.distance(from: utf16.startIndex, to: from),
-                       length: utf16.distance(from: from, to: to))
+    func nsRange(from range: Range<String.Index>) -> NSRange? {
+        let utf16view = self.utf16
+        if let from = range.lowerBound.samePosition(in: utf16view), let to = range.upperBound.samePosition(in: utf16view) {
+            return NSMakeRange(utf16view.distance(from: utf16view.startIndex, to: from), utf16view.distance(from: from, to: to))
+        }
+        return nil
     }
     func range(from nsRange: NSRange) -> Range<String.Index>? {
         guard let from16 = utf16.index(utf16.startIndex, offsetBy: nsRange.location, limitedBy: utf16.endIndex),

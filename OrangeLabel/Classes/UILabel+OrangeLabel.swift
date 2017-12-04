@@ -41,12 +41,12 @@ extension UILabel {
     
     // MARK: - Properties
     
-    private var attributesMap: [String: [String: Any]] {
+    private var attributesMap: [String: [NSAttributedStringKey: Any]] {
         get {
-            if let attributesMap = objc_getAssociatedObject(self, &AssociatedKeys.AttributesMapName) as? [String: [String: Any]] {
+            if let attributesMap = objc_getAssociatedObject(self, &AssociatedKeys.AttributesMapName) as? [String: [NSAttributedStringKey: Any]] {
                 return attributesMap
             }
-            let attributesMap = [String: [String: Any]]()
+            let attributesMap = [String: [NSAttributedStringKey: Any]]()
             objc_setAssociatedObject(self, &AssociatedKeys.AttributesMapName, attributesMap, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             return attributesMap
         }
@@ -63,7 +63,7 @@ extension UILabel {
         let context = NSStringDrawingContext()
         context.minimumScaleFactor = minimumScaleFactor;
         let mutable = NSMutableAttributedString(attributedString: attributedText)
-        mutable.setAttributes([NSFontAttributeName: font], range: NSMakeRange(0, mutable.length))
+        mutable.setAttributes([NSAttributedStringKey.font: font], range: NSMakeRange(0, mutable.length))
         mutable.boundingRect(with: bounds.size, options: .usesLineFragmentOrigin, context: context)
         return font.pointSize * context.actualScaleFactor;
     }
@@ -74,7 +74,7 @@ extension UILabel {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.alignment = textAlignment
         
-        mutable.setAttributes([NSParagraphStyleAttributeName: paragraphStyle, NSFontAttributeName: font.withSize(adjustedFontSize)], range: NSMakeRange(0, mutable.length))
+        mutable.setAttributes([NSAttributedStringKey.paragraphStyle: paragraphStyle, NSAttributedStringKey.font: font.withSize(adjustedFontSize)], range: NSMakeRange(0, mutable.length))
         
         let frameSetter = CTFramesetterCreateWithAttributedString(mutable)
         let path = CGMutablePath()
@@ -131,7 +131,7 @@ extension UILabel {
         return contains(touch, pattern: type.pattern)
     }
     @discardableResult
-    public func setAttributes(_ attributes: [String: Any], type: UILabelLinkType) -> Self {
+    public func setAttributes(_ attributes: [NSAttributedStringKey: Any], type: UILabelLinkType) -> Self {
         attributesMap[type.pattern] = attributes
         updateAttributes(forType: type)
         return self
@@ -143,7 +143,7 @@ extension UILabel {
             let index = characterIndex(forLocation: touch.location(in: self))
             if index >= value.range.location, index <= value.range.location + value.range.length {
                 let rect = boundingRect(forRange: value.range)
-                let string = text.substring(with: text.range(from: value.range)!)
+                let string = String(text[text.range(from: value.range)!])
                 results.append(TouchedLink(type: type, range: value.range, rect: rect, string: string))
             }
         }
@@ -190,8 +190,8 @@ extension UILabel {
         
         let textStorage = NSTextStorage(attributedString: attributedText)
         textStorage.addLayoutManager(layoutManager)
-        textStorage.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyle, range: NSMakeRange(0, textStorage.length))
-        textStorage.addAttribute(NSFontAttributeName, value: font.withSize(adjustedFontSize), range: NSMakeRange(0, textStorage.length))
+        textStorage.addAttribute(NSAttributedStringKey.paragraphStyle, value: paragraphStyle, range: NSMakeRange(0, textStorage.length))
+        textStorage.addAttribute(NSAttributedStringKey.font, value: font.withSize(adjustedFontSize), range: NSMakeRange(0, textStorage.length))
         return layoutManager
     }
 }
