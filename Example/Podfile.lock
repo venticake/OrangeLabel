@@ -18,9 +18,9 @@ CHECKOUT OPTIONS:
     :git: https://github.com/pisces/SimpleLayout.git
 
 SPEC CHECKSUMS:
-  OrangeLabel: 90ceea4372102d695f4c2882e9e93c41811117fe
+  OrangeLabel: 4ccd65774f1f96389af7d4e901140595e3fd1c25
   SimpleLayout-Swift: 240355363e01df1b9afb6dffb78b04cbec015a3c
 
 PODFILE CHECKSUM: 95655c8fcd15ce52bdd7764e67dde5307404048c
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.3.1
