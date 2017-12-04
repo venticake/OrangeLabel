@@ -33,11 +33,11 @@ class ViewController: UIViewController {
             .setHighlightedLinkColor(UIColor.white.withAlphaComponent(0.5), type: .hashtag)
             .setHighlightedLinkColor(UIColor.white.withAlphaComponent(0.5), type: .url)
             .setHighlightedLinkColor(UIColor.white.withAlphaComponent(0.5), type: numbers)
-            .setAttributes([NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
-                            NSForegroundColorAttributeName: UIColor(red: 1, green: 185/255, blue: 0, alpha: 1)], type: .mention)
-            .setAttributes([NSForegroundColorAttributeName: UIColor(red: 225/255, green: 66/255, blue: 16/255, alpha: 1)], type: .hashtag)
-            .setAttributes([NSForegroundColorAttributeName: UIColor(red: 0, green: 204/255, blue: 238/255, alpha: 1)], type: .url)
-            .setAttributes([NSForegroundColorAttributeName: UIColor(red: 1, green: 85/255, blue: 0, alpha: 1)], type: numbers)
+            .setAttributes([NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+                            NSAttributedStringKey.foregroundColor: UIColor(red: 1, green: 185/255, blue: 0, alpha: 1)], type: .mention)
+            .setAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 225/255, green: 66/255, blue: 16/255, alpha: 1)], type: .hashtag)
+            .setAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 0, green: 204/255, blue: 238/255, alpha: 1)], type: .url)
+            .setAttributes([NSAttributedStringKey.foregroundColor: UIColor(red: 1, green: 85/255, blue: 0, alpha: 1)], type: numbers)
         
         label.linkTapped { (link) in
             print(link)
